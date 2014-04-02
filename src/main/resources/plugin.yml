@@ -1,0 +1,53 @@
+name: EnoughItemsAlready
+main: org.dyndns.pamelloes.EIA.EnoughItemsAlready
+version: 1.1.1
+description: Too Many Items for Spout.
+author: Pamelloes
+depend: [Spout]
+permissions:
+  eia.*:
+    description: Gives access to all of EIA.
+    default: op
+    children:
+      eia.display: true
+      eia.display.*: true
+  eia.display:
+    description: Lets you view the GUI (though the individual parts require separate permissions)
+    default: op
+  eia.display.*:
+    description: Lets you view the entire GUI.
+    default: op
+    children:
+      eia.display.button.*: true
+      eia.display.item.*: true
+      eia.display.saveinventory: true
+  eia.display.button.*:
+    description: Lets you view all of the buttons.
+    default: op
+    children:
+      eia.display.button.delete: true
+      eia.display.button.gamemode: true
+      eia.display.button.weather: true
+      eia.display.button.heal: true
+      eia.display.button.time: true
+  eia.display.button.delete:
+    description: Lets you enable delete mode.
+    default: op
+  eia.display.button.gamemode:
+    description: Lets you change gamemodes.
+    default: op
+  eia.display.button.weather:
+    description: Lets you change the weather.
+    default: op
+  eia.display.button.heal:
+    description: Lets you heal yourself.
+    default: op
+  eia.display.button.time:
+    description: Lets you change the time of the world.
+    default: op
+  eia.display.saveinventory:
+    description: Lets you save and load inventories.
+    default: op
+  eia.display.item.*:
+    description: Provides access to all of the items. Please note that this permission has priority over all other item permissions so a player with this permission will _always_ have access to every item on the server.
+    default: op
