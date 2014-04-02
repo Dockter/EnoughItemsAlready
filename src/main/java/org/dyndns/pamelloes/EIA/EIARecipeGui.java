@@ -31,7 +31,6 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class EIARecipeGui {
 
-	@SuppressWarnings("deprecation")
 	public static void showRecipes(ItemStack i, final SpoutPlayer p) {
 		Material m = MaterialData.getMaterial(i.getTypeId(), i.getDurability());
 		if(m == null) return;
@@ -140,12 +139,26 @@ public class EIARecipeGui {
 			for(int j = 0; j < 3; j++) {
 				if(matrix[i][j] == null || matrix[i][j].getTypeId() == 0 || matrix[i][j].getAmount() == 0) continue;
 				ItemWidget iw = new GenericItemWidget(matrix[i][j]);
-				iw.setFixed(true).setWidth(32).setHeight(32).setAnchor(WidgetAnchor.CENTER_CENTER).setX((-bg.getWidth()/2) + 12 + (j * 36)).setY((-bg.getHeight()/2) + 30 + (i * 36)).setPriority(RenderPriority.Lowest);
-				items.add(iw);				
+				iw.setFixed(true).setWidth(32).setHeight(32).setAnchor(WidgetAnchor.CENTER_CENTER).setX((-bg.getWidth()/2) + 12 + (j * 36)).setY((-bg.getHeight()/2) + 30 + (i * 36)).setPriority(RenderPriority.Lowest);				
+				Material item = MaterialData.getMaterial(matrix[i][j].getTypeId(), matrix[i][j].getDurability());
+				String custom = item != null ? String.format(item.getName(), String.valueOf(matrix[i][j].getDurability())) : null;
+				if (custom != null) {
+					iw.setTooltip(custom); 
+				} else {
+					iw.setTooltip(item.getName());
+				}
+				items.add(iw);
 			}
 		}
 		ItemWidget iw = new GenericItemWidget(result);
 		iw.setFixed(true).setWidth(32).setHeight(32).setAnchor(WidgetAnchor.CENTER_CENTER).setX((-bg.getWidth()/2) + 192 + 8).setY((-bg.getHeight()/2) + 58 + 8).setPriority(RenderPriority.Lowest);
+		Material item = MaterialData.getMaterial(result.getTypeId(), result.getDurability());
+		String custom = item != null ? String.format(item.getName(), String.valueOf(result.getDurability())) : null;
+		if (custom != null) {
+			iw.setTooltip(custom); 
+		} else {
+			iw.setTooltip(item.getName());
+		}		
 		items.add(iw);
 		p.getMainScreen().getActivePopup().attachWidgets(EnoughItemsAlready.getInstance(), bg);
 		p.getMainScreen().getActivePopup().attachWidgets(EnoughItemsAlready.getInstance(), items.toArray(new Widget[0]));

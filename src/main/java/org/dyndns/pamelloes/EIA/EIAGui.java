@@ -27,11 +27,11 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class EIAGui {
 	private static final List<Material> materials;
-
+	
 	private List<Material> active = null;
-
+	
 	private final SpoutPlayer player;
-
+	
 	private final EIASlot[] slots;
 	private int page = 0;
 	private int pagecount;
@@ -43,16 +43,16 @@ public class EIAGui {
 	private final ImageCheckBox[] buttons;
 	private final ComboBox saves;
 	private boolean snow = false;
-	private boolean recipe = false;
-
+	private boolean recipe = true;
+	
 	public EIAGui(SpoutPlayer player) {
-		this.player = player;		
-
+		this.player = player;
+		
 		/////////
 		//ITEMS//
 		/////////
 		int width = 110;
-
+		
 		next = new GenericButton("Next") {
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -60,7 +60,7 @@ public class EIAGui {
 			}
 		};
 		next.setWidth(width/2).setHeight(20).setX(-width/2).setY(0).setMargin(0).setAnchor(WidgetAnchor.TOP_RIGHT);
-
+		
 		previous = new GenericButton("Back") {
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -68,7 +68,7 @@ public class EIAGui {
 			}
 		};
 		previous.setWidth(width/2).setHeight(20).setX(-width).setY(0).setMargin(0).setAnchor(WidgetAnchor.TOP_RIGHT);
-
+		
 		itembg = new GenericGradient(new Color(0f,0f,0f));
 		itembg.setWidth(width).setHeight(200).setMargin(0).setPriority(RenderPriority.Highest).setAnchor(WidgetAnchor.TOP_RIGHT).setX(-width).setY(next.getHeight());
 
@@ -81,21 +81,21 @@ public class EIAGui {
 			}
 		}
 		updateItems(null);
-
+		
 		search = new GenericTextField();
 		search.setPlaceholder("Search (SLOW!!!)").setMaximumCharacters(100).setAnchor(WidgetAnchor.TOP_RIGHT).setWidth(width - 4).setHeight(13).setX(-width + 2).setY(itembg.getY() + itembg.getHeight() + 2).setMargin(0);
-
+		
 		////////////
 		//CONTROLS//
 		////////////
-
+		
 		int margin = 2;
 		int size = 20;
-
+		
 		buttons = new ImageCheckBox[9];
 		buttons[0] = new ImageCheckBox(getBase() + "TrashButtonOff.png", getBase() + "TrashButtonOn.png", "eia.display.button.delete"); //trash
 		buttons[0].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Activate Delete Mode\nThe items you click on will be deleted.");
-
+		
 		buttons[1] = new ImageCheckBox(getBase() + "CreativeButtonOff.png", getBase() + "CreativeButtonOn.png", "eia.display.button.gamemode") { //creative
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -103,7 +103,7 @@ public class EIAGui {
 			}
 		};
 		buttons[1].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Change Gamemode\nOn means you are in Creative.");
-
+		
 		buttons[2] = new ImageCheckBox(getBase() + "RainButtonOff.png", getBase() + "RainButtonOn.png", "eia.display.button.weather") { //rain
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -111,15 +111,15 @@ public class EIAGui {
 			}
 		};
 		buttons[2].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Change the Weather\nOn means it is rainging or snowing.");
-
+		
 		buttons[3] = new ImageButton(getBase() + "HealButtonOff.png", "eia.display.button.heal") { //heal
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
-				EIAGui.this.player.setHealth(20F);
+				EIAGui.this.player.setHealth(20.0);
 			}
 		};
 		buttons[3].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Heal youself fully.");
-
+		
 		buttons[4] = new ImageCheckBox(getBase() + "RecipeButtonOff.png", getBase() + "RecipeButtonOn.png", "eia.display.button.recipe") { //rain
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -127,7 +127,7 @@ public class EIAGui {
 			}
 		};
 		buttons[4].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Activate Recipe Mode\nWhen you click on an item, you will see its recipe(s).");
-
+		
 		buttons[5] = new ImageCheckBox(getBase() + "DawnButtonOff.png", getBase() + "DawnButtonOn.png", "eia.display.button.time") { //dawn
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -136,7 +136,7 @@ public class EIAGui {
 			}
 		};
 		buttons[5].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Sets the time to dawn.");
-
+		
 		buttons[6] = new ImageCheckBox(getBase() + "NoonButtonOff.png", getBase() + "NoonButtonOn.png", "eia.display.button.time") { //noon
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -145,7 +145,7 @@ public class EIAGui {
 			}
 		};
 		buttons[6].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Sets the time to noon.");
-
+		
 		buttons[7] = new ImageCheckBox(getBase() + "DuskButtonOff.png", getBase() + "DuskButtonOn.png", "eia.display.button.time") { //dusk
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -154,7 +154,7 @@ public class EIAGui {
 			}
 		};
 		buttons[7].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Sets the time to dusk.");
-
+		
 		buttons[8] = new ImageCheckBox(getBase() + "MidnightButtonOff.png", getBase() + "MidnightButtonOn.png", "eia.display.button.time") { //midnight
 			@Override
 			public void onButtonClick(ButtonClickEvent e) {
@@ -163,7 +163,7 @@ public class EIAGui {
 			}
 		};
 		buttons[8].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Sets the time to midnight.");
-
+		
 		int x = margin, y = margin;
 		int xcount = 0, ycount = 0;
 		int maxX = 5;
@@ -182,7 +182,7 @@ public class EIAGui {
 			y += size + margin;
 			ycount++;
 		}
-
+		
 		buttonbg = new GenericGradient(new Color(0f,0f,0f));
 		if (xcount == 0 && ycount == 1) buttonbg.setX(-100).setY(-100);
 		else buttonbg.setWidth(((ycount==1 ? xcount : maxX) * (size + margin)) + margin).setHeight(y).setMargin(0).setPriority(RenderPriority.Normal).setAnchor(WidgetAnchor.TOP_LEFT).setX(0).setY(0);
@@ -245,7 +245,7 @@ public class EIAGui {
 					change = -1;
 				}
 			}
-
+			
 			@Override
 			public void onTick() {
 				super.onTick();
@@ -255,7 +255,7 @@ public class EIAGui {
 				change = -1;
 			}
 		};
-
+		
 		invbg = new GenericGradient(new Color(0f,0f,0f));
 		if(player.hasPermission("eia.display.saveinventory")) {
 			saves.setFormat("%selected%").setWidth(68).setHeight(20).setX(-73 - (int) (1.5 * margin)).setY(margin).setAnchor(WidgetAnchor.TOP_CENTER).setMargin(0).setPriority(RenderPriority.Low);
@@ -272,25 +272,25 @@ public class EIAGui {
 			invbg.setX(-100).setY(-100);
 		}
 	}
-
+	
 	private void nextPage() {
 		page++;
 		page %= pagecount;
 		updateItems();
 	}
-
+	
 	private void previousPage() {
 		page--;
 		if(page < 0) page = pagecount - 1;
 		updateItems();
 	}
-
+	
 	private void updateItems() {
 		int start = slots.length * page;
 		Iterator<Material> iter = active.listIterator(start);
 		for(EIASlot s : slots) s.setMaterial(iter.hasNext() ? iter.next() : MaterialData.air);
 	}
-
+	
 	private void updateItems(String search) {
 		if(searchstr == search) return; //both null;
 		if(searchstr != null && searchstr.equals(search)) return;
@@ -301,19 +301,22 @@ public class EIAGui {
 		if(active == null) active = new ArrayList<Material>();
 		else active.clear();
 		for(Material m : materials) {
-			if(player.hasPermission("eia.display.item.*") || player.hasPermission("eia.display.item." + m.getName().toLowerCase().replace(" ", "")) || player.hasPermission("eia.display.item." + m.getRawId()) || player.hasPermission("eia.display.item." + m.getRawId() + "-" + m.getRawData()));
-			if(reset || m.getName().toLowerCase().contains(search.toLowerCase())) active.add(m);
+			if(player.hasPermission("eia.display.item.*") || player.hasPermission("eia.display.item." + m.getName().toLowerCase().replace(" ", "")) || player.hasPermission("eia.display.item." + m.getRawId()) || player.hasPermission("eia.display.item." + m.getRawId() + "-" + m.getRawData())) {
+				if(reset || m.getName().toLowerCase().contains(search.toLowerCase())) {					
+					active.add(m);
+				}
+			}
 		}
 		page = 0;
 		pagecount = ((active.size() - (active.size() % (slots.length))) / (slots.length)) + (active.size() % (slots.length) != 0 ? 1 : 0);
 		if(pagecount == 0) pagecount = 1;
 		updateItems();
 	}
-
+	
 	private String getBase() {
 		return "plugins/" + EnoughItemsAlready.getInstance().getDescription().getName() + "/";
 	}
-
+	
 	public void attach(Screen screen) {
 		screen.attachWidgets(EnoughItemsAlready.getInstance(), buttonbg, itembg, invbg, next, previous, search, saves, save, load, delete);
 		screen.attachWidgets(EnoughItemsAlready.getInstance(), slots);
@@ -331,33 +334,33 @@ public class EIAGui {
 	public boolean hasClearMode() {
 		return buttons[0].isChecked();
 	}
-
+	
 	public boolean hasRecipeMode() {
 		return recipe;
 	}
-
+	
 	public void updateTime(int index) {
 		for(int i = 5; i < 9; i++) buttons[i].setChecked(i == index + 5);
 	}
-
+	
 	public void updateSnow(boolean snowing) {
 		if(snow == snowing) return;
 		snow = snowing;
 		buttons[2].setImages(getBase() + (snowing ? "Snow" : "Rain") + "ButtonOff.png", getBase() + (snowing ? "Snow" : "Rain") + "ButtonOn.png");
 	}
-
+	
 	public void updateWeather(boolean raining) {
 		buttons[2].setChecked(raining);
 	}
-
+	
 	public void updateGamemode(boolean creative) {
 		buttons[1].setChecked(creative);
 	}
-
+	
 	public void updateSearch() {
 		updateItems(search.getText());
 	}
-
+	
 	static {
 		materials = new ArrayList<Material>();
 		for(Material mat : MaterialData.getMaterials()) {

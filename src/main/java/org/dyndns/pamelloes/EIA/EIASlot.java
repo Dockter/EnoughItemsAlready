@@ -22,8 +22,10 @@ public class EIASlot extends GenericSlot {
 	@Override
 	public Slot setItem(ItemStack is) {
 		if(getScreen() != null && getScreen().getPlayer().getGameMode().equals(GameMode.CREATIVE) && (getScreen().getPlayer().getCurrentScreen().getScreenType().equals(ScreenType.PLAYER_INVENTORY) || getScreen().getPlayer().getCurrentScreen().getScreenType().equals(ScreenType.PLAYER_INVENTORY_CREATIVE))) Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable() {
+			@SuppressWarnings("deprecation")
 			public void run() {
-				((CraftPlayer) getScreen().getPlayer()).getHandle().inventory.setCarried(CraftItemStack.asNMSCopy(new ItemStack(0)));
+				//((CraftPlayer) getScreen().getPlayer()).getHandle().inventory.setCarried(CraftItemStack.asNMSCopy(new ItemStack(0)));
+				getScreen().getPlayer().setItemInHand(new ItemStack(0));
 			}
 		}, 1L);
 		return super.setItem(new SpoutItemStack(mat, 64));
