@@ -31,6 +31,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class EIARecipeGui {
 
+	@SuppressWarnings("deprecation")
 	public static void showRecipes(ItemStack i, final SpoutPlayer p) {
 		Material m = MaterialData.getMaterial(i.getTypeId(), i.getDurability());
 		if(m == null) return;
@@ -130,6 +131,7 @@ public class EIARecipeGui {
 		return items;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static Texture showMatrixRecipe(ItemStack[][] matrix, ItemStack result, SpoutPlayer p) {
 		Texture bg = new GenericTexture("plugins/" + EnoughItemsAlready.getInstance().getDescription().getName() + "/Recipe.png");
 		bg.setWidth(250).setHeight(144).setX(-bg.getWidth()/2).setY(-bg.getHeight()/2).setAnchor(WidgetAnchor.CENTER_CENTER).setPriority(RenderPriority.Normal);
@@ -139,7 +141,7 @@ public class EIARecipeGui {
 				if(matrix[i][j] == null || matrix[i][j].getTypeId() == 0 || matrix[i][j].getAmount() == 0) continue;
 				ItemWidget iw = new GenericItemWidget(matrix[i][j]);
 				iw.setFixed(true).setWidth(32).setHeight(32).setAnchor(WidgetAnchor.CENTER_CENTER).setX((-bg.getWidth()/2) + 12 + (j * 36)).setY((-bg.getHeight()/2) + 30 + (i * 36)).setPriority(RenderPriority.Lowest);
-				items.add(iw);
+				items.add(iw);				
 			}
 		}
 		ItemWidget iw = new GenericItemWidget(result);

@@ -12,13 +12,36 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <bukkitVersion>1.6.2-R1.1-SNAPSHOT</bukkitVersion>
+	<spoutcraftpluginVersion>1.6.2-R1.1-SNAPSHOT</spoutcraftpluginVersion>
+	<minecraftVersion>1.6.2</minecraftVersion>
   </properties>
 
   <repositories>
   	<repository>
-  		<id>spout-repo</id>
-  		<url>http://repo.spout.org/</url>
-  	</repository>
+			<id>bukkit-releases</id>
+			<url>http://repo.bukkit.org/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>bukkit-snapshots</id>
+			<url>http://repo.bukkit.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -27,15 +50,17 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-    	<groupId>org.bukkit</groupId>
-    	<artifactId>craftbukkit</artifactId>
-    	<version>1.2.5-R1.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.getspout</groupId>
-    	<artifactId>spoutpluginapi</artifactId>
-    	<version>dev-SNAPSHOT</version>
-    </dependency>
+  	 <dependency>
+		<groupId>org.bukkit</groupId>
+		<artifactId>craftbukkit</artifactId>
+		<version>${bukkitVersion}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.spoutcraft</groupId>
+		<artifactId>spoutcraftplugin</artifactId>
+		<version>${spoutcraftpluginVersion}</version>
+		<scope>provided</scope>
+		</dependency>
   </dependencies>
 </project>

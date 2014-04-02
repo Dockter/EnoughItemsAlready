@@ -2,8 +2,8 @@ package org.dyndns.pamelloes.EIA;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.gui.GenericSlot;
 import org.getspout.spoutapi.gui.ScreenType;
@@ -23,7 +23,7 @@ public class EIASlot extends GenericSlot {
 	public Slot setItem(ItemStack is) {
 		if(getScreen() != null && getScreen().getPlayer().getGameMode().equals(GameMode.CREATIVE) && (getScreen().getPlayer().getCurrentScreen().getScreenType().equals(ScreenType.PLAYER_INVENTORY) || getScreen().getPlayer().getCurrentScreen().getScreenType().equals(ScreenType.PLAYER_INVENTORY_CREATIVE))) Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable() {
 			public void run() {
-				((CraftPlayer) getScreen().getPlayer()).getHandle().inventory.setCarried(CraftItemStack.createNMSItemStack(new ItemStack(0)));
+				((CraftPlayer) getScreen().getPlayer()).getHandle().inventory.setCarried(CraftItemStack.asNMSCopy(new ItemStack(0)));
 			}
 		}, 1L);
 		return super.setItem(new SpoutItemStack(mat, 64));
