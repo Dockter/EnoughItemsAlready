@@ -14,6 +14,7 @@ import org.getspout.spoutapi.gui.ComboBox;
 import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.GenericComboBox;
 import org.getspout.spoutapi.gui.GenericGradient;
+import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericTextField;
 import org.getspout.spoutapi.gui.Gradient;
 import org.getspout.spoutapi.gui.RenderPriority;
@@ -39,6 +40,7 @@ public class EIAGui {
 	private final Button next, previous, delete;
 	private final ImageCheckBox save, load;
 	private final TextField search;
+	private final GenericLabel recipeLabel;
 	private String searchstr = "";
 	private final ImageCheckBox[] buttons;
 	private final ComboBox saves;
@@ -84,6 +86,13 @@ public class EIAGui {
 		
 		search = new GenericTextField();
 		search.setPlaceholder("Search (SLOW!!!)").setMaximumCharacters(100).setAnchor(WidgetAnchor.TOP_RIGHT).setWidth(width - 4).setHeight(13).setX(-width + 2).setY(itembg.getY() + itembg.getHeight() + 2).setMargin(0);
+		
+		recipeLabel = new GenericLabel("");
+		if (recipe) {
+			recipeLabel.setText("Click Item to View Recipe");
+		}
+		recipeLabel.setAnchor(WidgetAnchor.TOP_RIGHT).setWidth(width - 4).setHeight(13).setX(-width + 2).setY(itembg.getY() + itembg.getHeight() + 20).setMargin(0);
+		
 		
 		////////////
 		//CONTROLS//
@@ -310,6 +319,7 @@ public class EIAGui {
 		page = 0;
 		pagecount = ((active.size() - (active.size() % (slots.length))) / (slots.length)) + (active.size() % (slots.length) != 0 ? 1 : 0);
 		if(pagecount == 0) pagecount = 1;
+		
 		updateItems();
 	}
 	
@@ -318,7 +328,7 @@ public class EIAGui {
 	}
 	
 	public void attach(Screen screen) {
-		screen.attachWidgets(EnoughItemsAlready.getInstance(), buttonbg, itembg, invbg, next, previous, search, saves, save, load, delete);
+		screen.attachWidgets(EnoughItemsAlready.getInstance(), buttonbg, itembg, invbg, next, previous, search, recipeLabel, saves, save, load, delete);
 		screen.attachWidgets(EnoughItemsAlready.getInstance(), slots);
 		updateGamemode(player.getGameMode().equals(GameMode.CREATIVE));
 		updateWeather(player.getWorld().hasStorm());

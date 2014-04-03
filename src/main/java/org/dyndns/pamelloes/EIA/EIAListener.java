@@ -37,7 +37,9 @@ public class EIAListener implements Listener {
 				//Validate permissions
 				if(!e.getPlayer().hasPermission("eia.display")) return;
 				//Create and display gui
-				if(!EnoughItemsAlready.map.containsKey(e.getPlayer())) EnoughItemsAlready.map.put(e.getPlayer(), new EIAGui(e.getPlayer()));
+				if(!EnoughItemsAlready.map.containsKey(e.getPlayer())) { 
+					EnoughItemsAlready.map.put(e.getPlayer(), new EIAGui(e.getPlayer()));
+				}
 				EnoughItemsAlready.map.get(e.getPlayer()).attach(e.getPlayer().getCurrentScreen());
 			}
 		} );
@@ -46,6 +48,7 @@ public class EIAListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(final InventoryClickEvent e) { //This is a dirty hack to get around the fact that the creative inventory doesn't send the item stack on the cursor to the server.
 		Bukkit.getScheduler().scheduleSyncDelayedTask(EnoughItemsAlready.getInstance(), new Runnable() {
+			@SuppressWarnings("deprecation")
 			public void run() {
 				SpoutPlayer sp = e.getWhoClicked() instanceof SpoutPlayer ? (SpoutPlayer) e.getWhoClicked() : null;
 				if(sp == null) return;

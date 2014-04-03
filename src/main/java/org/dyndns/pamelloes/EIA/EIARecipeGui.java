@@ -31,7 +31,9 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class EIARecipeGui {
 
+	@SuppressWarnings("deprecation")
 	public static void showRecipes(ItemStack i, final SpoutPlayer p) {
+		final ScreenType st = p.getCurrentScreen().getScreenType();		
 		Material m = MaterialData.getMaterial(i.getTypeId(), i.getDurability());
 		if(m == null) return;
 		
@@ -62,15 +64,19 @@ public class EIARecipeGui {
 		final Recipe[] recipes = recipelist.toArray(new Recipe[0]);
 		if(recipes.length == 0) return;
 		
-		final ScreenType st = p.getCurrentScreen().getScreenType();
+		
 		PopupScreen popup = new GenericPopup() {
 			
 			@Override
-			public void onScreenClose(ScreenCloseEvent e) {
+			public void onScreenClose(final ScreenCloseEvent e) {
 				if(!e.isCancelled()) {
 					Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable() {
 						public void run() {
-							p.openScreen(st.equals(ScreenType.PLAYER_INVENTORY_CREATIVE) ? ScreenType.PLAYER_INVENTORY : st);
+							if (st.equals(ScreenType.PLAYER_INVENTORY_CREATIVE) || st.equals(ScreenType.PLAYER_INVENTORY)) {
+								p.openScreen(st);
+							} else {
+								p.closeActiveWindow(); //Close inventory window if its open.
+							}
 						}
 					}, 1l);
 				}
@@ -93,6 +99,7 @@ public class EIARecipeGui {
 		return null;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static ItemStack[][] getMatrix(ShapedRecipe r) {
 		//cuz bukkit fails, I have to do some nasty refactoring here....
 		List<ItemStack> itemlist = new ArrayList<ItemStack>(0);
@@ -109,8 +116,8 @@ public class EIARecipeGui {
 		ItemStack[][] items = new ItemStack[3][3];
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
-				if(height <= i) items[i][j] = new ItemStack(0);
-				else if(width <= j) items[i][j] = new ItemStack(0);
+				if(width <= i) items[i][j] = new ItemStack(0);
+				else if(height <= j) items[i][j] = new ItemStack(0);
 				else if(!iter.hasNext()) items[i][j] = new ItemStack(0);
 				else items[i][j] = iter.next();
 			}
@@ -142,9 +149,13 @@ public class EIARecipeGui {
 				iw.setFixed(true).setWidth(32).setHeight(32).setAnchor(WidgetAnchor.CENTER_CENTER).setX((-bg.getWidth()/2) + 12 + (j * 36)).setY((-bg.getHeight()/2) + 30 + (i * 36)).setPriority(RenderPriority.Lowest);				
 				Material item = MaterialData.getMaterial(matrix[i][j].getTypeId(), matrix[i][j].getDurability());
 				String custom = item != null ? String.format(item.getName(), String.valueOf(matrix[i][j].getDurability())) : null;
+				if (item == null) {
+					System.out.println("Result ID: "+ result.getTypeId());
+					System.out.println("Result Durability: "+ result.getDurability());
+				}
 				if (custom != null) {
 					iw.setTooltip(custom); 
-				} else {
+				} else if (item != null) {
 					iw.setTooltip(item.getName());
 				}
 				items.add(iw);
@@ -154,9 +165,13 @@ public class EIARecipeGui {
 		iw.setFixed(true).setWidth(32).setHeight(32).setAnchor(WidgetAnchor.CENTER_CENTER).setX((-bg.getWidth()/2) + 192 + 8).setY((-bg.getHeight()/2) + 58 + 8).setPriority(RenderPriority.Lowest);
 		Material item = MaterialData.getMaterial(result.getTypeId(), result.getDurability());
 		String custom = item != null ? String.format(item.getName(), String.valueOf(result.getDurability())) : null;
+		if (item == null) {
+			System.out.println("Result ID: "+ result.getTypeId());
+			System.out.println("Result Durability: "+ result.getDurability());
+		}
 		if (custom != null) {
 			iw.setTooltip(custom); 
-		} else {
+		} else if (item != null) {
 			iw.setTooltip(item.getName());
 		}		
 		items.add(iw);
