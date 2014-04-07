@@ -2,8 +2,6 @@ package org.dyndns.pamelloes.EIA;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.getspout.spoutapi.gui.GenericSlot;
 import org.getspout.spoutapi.gui.ScreenType;
@@ -17,6 +15,7 @@ public class EIASlot extends GenericSlot {
 	
 	public EIASlot(Material mat) {
 		setMaterial(mat);
+		setRenderAmount(false);
 	}
 	
 	@Override

@@ -8,11 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 
-import net.minecraft.server.v1_6_R2.NBTBase;
-import net.minecraft.server.v1_6_R2.NBTTagList;
+import net.minecraft.server.v1_6_R3.NBTBase;
+import net.minecraft.server.v1_6_R3.NBTTagList;
 
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventoryPlayer;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_6_R3.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
@@ -55,12 +55,12 @@ public class InventorySave {
 		playerdir.mkdir();
 		File save = new File(playerdir, name + ".dat");
 		if(save.exists() && !overwrite) return false;
-		if(!(inventory instanceof org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventoryPlayer)) return false;
-		org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventoryPlayer cip = (org.bukkit.craftbukkit.v1_6_R2.inventory.CraftInventoryPlayer) inventory;
-		net.minecraft.server.v1_6_R2.PlayerInventory mcinv = cip.getInventory();
-		net.minecraft.server.v1_6_R2.NBTTagList nbtl = new net.minecraft.server.v1_6_R2.NBTTagList();
+		if(!(inventory instanceof org.bukkit.craftbukkit.v1_6_R3.inventory.CraftInventoryPlayer)) return false;
+		org.bukkit.craftbukkit.v1_6_R3.inventory.CraftInventoryPlayer cip = (org.bukkit.craftbukkit.v1_6_R3.inventory.CraftInventoryPlayer) inventory;
+		net.minecraft.server.v1_6_R3.PlayerInventory mcinv = cip.getInventory();
+		net.minecraft.server.v1_6_R3.NBTTagList nbtl = new net.minecraft.server.v1_6_R3.NBTTagList();
 		mcinv.a(nbtl);
-		net.minecraft.server.v1_6_R2.NBTBase.a(nbtl, new DataOutputStream(new FileOutputStream(save)));
+		net.minecraft.server.v1_6_R3.NBTBase.a(nbtl, new DataOutputStream(new FileOutputStream(save)));
 		return true;
 	}
 	
@@ -80,7 +80,7 @@ public class InventorySave {
 		File save = new File(playerdir, name);
 		if(!save.exists()) return null;
 		NBTTagList nbtl = (NBTTagList) NBTBase.a(new DataInputStream(new FileInputStream(save)));
-		net.minecraft.server.v1_6_R2.PlayerInventory mcinv = new net.minecraft.server.v1_6_R2.PlayerInventory(((CraftPlayer) player).getHandle());
+		net.minecraft.server.v1_6_R3.PlayerInventory mcinv = new net.minecraft.server.v1_6_R3.PlayerInventory(((CraftPlayer) player).getHandle());
 		mcinv.b(nbtl);
 		return new CraftInventoryPlayer(mcinv);
 	}

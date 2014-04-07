@@ -78,6 +78,7 @@ public class EIAGui {
 		for(int i = 0; i < 11; i++) {
 			for(int j = 0; j < 6; j++) {
 				EIASlot s = new EIASlot(MaterialData.air);
+				s.setRenderAmount(false);
 				s.setWidth(16).setHeight(16).setFixed(true).setAnchor(WidgetAnchor.TOP_RIGHT).setX((-itembg.getWidth()) + (j * 18) + 2).setY(next.getHeight() + (i * 18) + 2);
 				slots[(i * 6) + j] = s;
 			}
@@ -136,6 +137,7 @@ public class EIAGui {
 			}
 		};
 		buttons[4].setWidth(size).setHeight(size).setMargin(0).setAnchor(WidgetAnchor.TOP_LEFT).setTooltip("Activate Recipe Mode\nWhen you click on an item, you will see its recipe(s).");
+		buttons[4].setChecked(recipe);
 		
 		buttons[5] = new ImageCheckBox(getBase() + "DawnButtonOff.png", getBase() + "DawnButtonOn.png", "eia.display.button.time") { //dawn
 			@Override
@@ -297,7 +299,10 @@ public class EIAGui {
 	private void updateItems() {
 		int start = slots.length * page;
 		Iterator<Material> iter = active.listIterator(start);
-		for(EIASlot s : slots) s.setMaterial(iter.hasNext() ? iter.next() : MaterialData.air);
+		for(EIASlot s : slots) {
+			s.setMaterial(iter.hasNext() ? iter.next() : MaterialData.air);
+			
+		}
 	}
 	
 	private void updateItems(String search) {
